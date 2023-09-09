@@ -2,9 +2,9 @@ import React from "react";
 import RemoveBtn from "./RemoveBtn";
 import Link from "next/link";
 import { HiPencilAlt } from "react-icons/hi";
-import { Todo } from "../../types";
 
 const TodoList = async () => {
+  // fetch todo function
   const fetchTodos = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/todos", {
@@ -23,18 +23,23 @@ const TodoList = async () => {
 
   return (
     <>
-      <div className=" p-4 border border-pink-300 my-3 flex justify-between gap-5 rounded-md">
-        <div>
-          <h2 className="font-bold text-2xl">{}</h2>
-          <div>Todo Description</div>
+      {todos.map((todo: any) => (
+        <div
+          key={todo._id}
+          className=" p-4 border border-pink-300 my-3 flex justify-between gap-5 rounded-md"
+        >
+          <div>
+            <h2 className="font-bold text-2xl">{todo.title}</h2>
+            <div>{todo.description}</div>
+          </div>
+          <div className="flex gap-2 items-start">
+            <RemoveBtn />
+            <Link href={`/update/${todo._id}`}>
+              <HiPencilAlt size={24} />
+            </Link>
+          </div>
         </div>
-        <div className="flex gap-2 items-start">
-          <RemoveBtn />
-          <Link href={"/update"}>
-            <HiPencilAlt size={24} />
-          </Link>
-        </div>
-      </div>
+      ))}
     </>
   );
 };
